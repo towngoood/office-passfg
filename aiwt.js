@@ -1,6 +1,6 @@
-#嘿嘿 shabiweiruan  zhenshabi weiruan
+#嘿嘿 shabiweiruan  zhenshabi wisi
 
-// SharePoint 网站的 URL
+// SharePoint 网站的 URLasdas
 var siteUrl = "https://your-sharepoint-site-url";
 
 // 获取当前时间的函数
