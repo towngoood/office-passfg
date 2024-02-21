@@ -1,1 +1,22 @@
+{
+  "name": "office-passfg",
+  "version": "1.0.0",
+  "description": "A program to get the current user information and install Microsoft 365 apps using Office Customization Tool",
+  "dependencies": {
+    "Newtonsoft.Json": "13.0.1",
+    "System.Net.Http": "4.3.4"
+  },
+  "settings": {
+    "tenant": "contoso.onmicrosoft.com",
+    "clientId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "clientSecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "siteUrl": "https://contoso.sharepoint.com/sites/demo",
+    "resource": "https://contoso.sharepoint.com",
+    "authority": "https://login.microsoftonline.com/{tenant}",
+    "baseAddress": "{siteUrl}/_api/",
+    "octEndpoint": "https://config.office.com/api/v1.0/configuration",
+    "octApiKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "octConfigId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  }
+}
 
