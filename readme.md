@@ -1,6 +1,7 @@
 # Office 365 mailbox API APL
 
-这是一个使用Office 365 API进行各种应用的程序。
+Office Customization Tool 是一个用于定制和部署 Microsoft 365 应用的在线工具，可以让管理员选择产品、版本、语言、安装选项、更新选项、许可证和激活等设置²。我猜测“office-passfg”这个项目是一个使用 c# 编写的程序，用于通过 SharePoint REST API 获取当前用户的信息，并使用 Office Customization Tool 来配置和安装 Microsoft 365 应用。这是一个有趣的项目，可以让用户更方便地使用 Microsoft 365 的各种功能。
+
 
 ## 安装
 
