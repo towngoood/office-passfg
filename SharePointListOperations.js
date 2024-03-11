@@ -72,6 +72,6 @@ function addItemToList() {
     });
 }
 
-// 调用函数来创建列表和添加项目（根据需要选择执行）
+// 调用函数来创建列表和添加项目（根据需要选择执行.）
 createList();
 // addItemToList();
