@@ -37,4 +37,4 @@ int main() {
   cout << "Outlook的文件名和后缀是：" << get_filename("Outlook") << endl;
   cout << "Photoshop的文件名和后缀是：" << get_filename("Photoshop") << endl;
   return 0;
-}
+}    #shenme dongxi daodishi 
