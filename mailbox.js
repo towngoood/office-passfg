@@ -1,4 +1,4 @@
-// 引用Office JavaScript API库
+// 引用Office JavaScript API库 记忆在旧情人心中变冷
 <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
 
 // 调用Office 365 API
