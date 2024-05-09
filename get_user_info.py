@@ -33,4 +33,23 @@ if response.status_code == 200:
 else:
     print(f"请求失败，状态码: {response.status_code}")
 
+from office365.runtime.auth.user_credential import UserCredential
+from office365.sharepoint.client_context import ClientContext
+
+# 设置你的Office 365租户信息
+site_url = "https://{your-tenant-prefix}.sharepoint.com"
+user_name = "你的用户名"
+user_password = "你的密码"
+
+# 使用用户名和密码认证
+credentials = UserCredential(user_name, user_password)
+ctx = ClientContext(site_url).with_credentials(credentials)
+
+# 获取并打印当前用户的信息
+web = ctx.web
+ctx.load(web)
+ctx.execute_query()
+print("Web title: {0}".format(web.properties['Title']))
+
+
 # so fa
