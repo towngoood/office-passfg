@@ -15,3 +15,5 @@ Office.context.mailbox.getCallbackTokenAsync({isRest: true}, function (result) {
         // 处理错误
     });
 });
+
+# 666
