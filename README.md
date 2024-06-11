@@ -25,4 +25,4 @@ Office Customization Tool 是一个用于定制和部署 Microsoft 365 应用的
 
 如果你需要更多信息，请参考GitHub的README文件指南。
 
-祝你使用愉快！
+祝你使用愉快！！
