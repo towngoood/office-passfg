@@ -28,7 +28,7 @@ string get_filename(string app) {
   return filename + extension;
 }
 
-// 主函数，测试一些office365的应用名称
+// 主函数，测试一些office365的应用名称 hehe
 int main() {
   cout << "Word的文件名和后缀是：" << get_filename("Word") << endl;
   cout << "Excel的文件名和后缀是：" << get_filename("Excel") << endl;
