@@ -102,4 +102,40 @@ namespace Office365RestClient
         public string LoginName { get; set; }
     }
 }
-# var jies
+        private static readonly string authority = $"https://login.microsoftonline.com/{tenant}";
+
+        static async Task Main(string[] args)
+        {
+            var token = await GetAccessToken();
+            await GetSharePointData(token);
+        }
+
+        private static async Task<string> GetAccessToken()
+        {
+            using (var client = new HttpClient())
+            {
+                var body = new StringContent($"resource={resource}&client_id={clientId}&client_secret={clientSecret}&grant_type=client_credentials");
+                body.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+                var response = await client.PostAsync($"{authority}/oauth2/token", body);
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                dynamic tokenResponse = JsonConvert.DeserializeObject(jsonResponse);
+
+                return tokenResponse.access_token;
+            }
+        }
+
+        private static async Task GetSharePointData(string accessToken)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                var response = await client.GetAsync($"{siteUrl}/_api/web/lists");
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                dynamic data = JsonConvert.DeserializeObject(jsonResponse);
+
+                Console.WriteLine(data);
+            }
+        }
+    }
+}
