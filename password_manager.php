@@ -66,28 +66,48 @@ function send_password_email($to_email, $to_name, $new_password) {
 
 //定义一个函数，用于重置用户密码
 function reset_password($user_id) {
-    //连接数据库，这里假设使用 PDO
-    $db = new PDO('mysql:host=localhost;dbname=your_db', 'your_user', 'your_pass');
-    //生成一个新的随机密码
-    $new_password = generate_password();
-    //对密码进行哈希加密，这里假设使用 password_hash 函数
-    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-    //更新用户表中的密码字段，这里假设用户表名为 users，密码字段名为 password
-    $sql = "UPDATE users SET password = :password WHERE id = :id";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(':password', $hashed_password);
-    $stmt->bindParam(':id', $user_id);
-    $stmt->execute();
-    //获取用户的邮箱和姓名，这里假设用户表中有 email 和 name 字段
-    $sql = "SELECT email, name FROM users WHERE id = :id";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(':id', $user_id);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    //发送密码重置邮件给用户
-    $result = send_password_email($user['email'], $user['name'], $new_password);
-    //返回结果
-    return $result;
+    try {
+        //连接数据库，这里假设使用 PDO
+        $db = new PDO('mysql:host=localhost;dbname=your_db', 'your_user', 'your_pass');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        //生成一个新的随机密码
+        $new_password = generate_password();
+        //对密码进行哈希加密，这里假设使用 password_hash 函数
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+        //更新用户表中的密码字段，这里假设用户表名为 users，密码字段名为 password
+        $sql = "UPDATE users SET password = :password WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':password', $hashed_password);
+        $stmt->bindParam(':id', $user_id);
+        $stmt->execute();
+
+        //获取用户的邮箱和姓名，这里假设用户表中有 email 和 name 字段
+        $sql = "SELECT email, name FROM users WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $user_id);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            throw new Exception("User not found.");
+        }
+
+        //发送密码重置邮件给用户
+        $result = send_password_email($user['email'], $user['name'], $new_password);
+
+        if (!$result) {
+            throw new Exception("Failed to send password reset email.");
+        }
+
+        //返回结果
+        return true;
+
+    } catch (Exception $e) {
+        error_log("Error resetting password: " . $e->getMessage());
+        return false;
+    }
 }
 
 //测试重置用户密码的函数，这里假设用户 id 为 1
@@ -95,5 +115,5 @@ $result = reset_password(1);
 if ($result) {
     echo "Password reset successfully.";
 } else {
-    echo "Password reset failed.";
+    echo "Password reset failed. Check error logs for details.";
 }
