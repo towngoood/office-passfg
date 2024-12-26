@@ -152,3 +152,63 @@ function addItemToList() {
 // 调用函数来创建列表和添加项目（根据需要选择执行.）
 createList();
 // addItemToList();
+// 从 SharePoint 列表中获取项目
+function getItemsFromList() {
+    var listTitle = "SampleList";
+    var endpointUrl = siteUrl + `/_api/web/lists/getbytitle('${listTitle}')/items`;
+
+    var accessToken = getAccessToken();
+
+    fetch(endpointUrl, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json;odata=verbose',
+            'Authorization': 'Bearer ' + accessToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('从列表中获取的项目:', data.d.results);
+        // 处理获取的项目
+        data.d.results.forEach(item => {
+            console.log(`ID: ${item.Id}, Title: ${item.Title}`);
+        });
+    })
+    .catch(error => {
+        console.error('获取列表项目时出错:', error);
+    });
+}
+
+// 从 SharePoint 列表中删除项目
+function deleteItemFromList(itemId) {
+    var listTitle = "SampleList";
+    var endpointUrl = siteUrl + `/_api/web/lists/getbytitle('${listTitle}')/items(${itemId})`;
+
+    var accessToken = getAccessToken();
+
+    fetch(endpointUrl, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json;odata=verbose',
+            'Authorization': 'Bearer ' + accessToken,
+            'IF-MATCH': '*' // 使用 "*" 表示删除任何匹配的项
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log(`项目 ID ${itemId} 已成功删除`);
+        } else {
+            console.error(`删除项目 ID ${itemId} 时出错:`, response.statusText);
+        }
+    })
+    .catch(error => {
+        console.error('删除项目时出错:', error);
+    });
+}
+
+// 示例调用：获取列表中的项目
+getItemsFromList();
+
+// 示例调用：删除列表中的项目（假设项目 ID 为 1）
+deleteItemFromList(1);
+
