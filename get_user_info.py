@@ -33,6 +33,27 @@ if response.status_code == 200:
 else:
     print(f"请求失败，状态码: {response.status_code}")
 
+# 定义新用户的数据
+new_user_data = {
+    "accountEnabled": True,
+    "displayName": "新用户",
+    "mailNickname": "newuser",
+    "userPrincipalName": "newuser@yourtenant.onmicrosoft.com",
+    "passwordProfile": {
+        "forceChangePasswordNextSignIn": True,
+        "password": "YourPassword123!"
+    }
+}
+
+# 发送请求创建新用户
+create_user_response = requests.post(f'{resource}/v1.0/users', headers=headers, json=new_user_data)
+
+# 检查响应并打印结果
+if create_user_response.status_code == 201:
+    print("新用户创建成功")
+else:
+    print(f"创建用户失败，状态码: {create_user_response.status_code}")
+
 from office365.runtime.auth.user_credential import UserCredential
 from office365.sharepoint.client_context import ClientContext
 
