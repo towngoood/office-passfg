@@ -1,6 +1,4 @@
-#xixi shabiweiruan  zhenshabi wisi
-
-// SharePoint 网站的 URLasdas
+// 获取 SharePoint 网站的 URL
 var siteUrl = "https://your-sharepoint-site-url";
 
 // 获取当前时间的函数
@@ -12,7 +10,7 @@ function getCurrentDateTime() {
 // 向 SharePoint 列表中添加项目，并自动记录当前时间
 function addItemWithTimestamp() {
     var listTitle = "SampleList";
-    var endpointUrl = siteUrl + `/_api/web/lists/getbytitle('${listTitle}')/items`;
+    var endpointUrl = `${siteUrl}/_api/web/lists/getbytitle('${listTitle}')/items`;
 
     var currentTime = getCurrentDateTime();
 
@@ -21,7 +19,6 @@ function addItemWithTimestamp() {
         'Title': 'New Item with Timestamp',
         'Description': 'This item includes a timestamp.',
         'TimestampField': currentTime // 假设 SharePoint 列表中有名为 TimestampField 的字段用于记录时间戳
-        // 根据列表的字段结构添加其他必要的字段
     };
 
     var accessToken = getAccessToken();
@@ -38,13 +35,25 @@ function addItemWithTimestamp() {
     .then(response => response.json())
     .then(data => {
         console.log('带有时间戳的项目已添加到列表:', data);
-        // 添加成功后的操作
+
+        // 获取刚刚添加的项目的详细信息
+        var createdItemId = data.d.Id; // 获取新项目的 ID
+        return fetch(`${endpointUrl}(${createdItemId})`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json;odata=verbose',
+                'Authorization': 'Bearer ' + accessToken
+            }
+        });
+    })
+    .then(response => response.json())
+    .then(itemDetails => {
+        console.log('新创建的项详细信息:', itemDetails);
     })
     .catch(error => {
-        console.error('添加项目时出错:', error);
+        console.error('操作失败:', error);
     });
 }
 
 // 调用添加项目的函数
 addItemWithTimestamp();
-# tes
